@@ -1,0 +1,38 @@
+---
+type Author = string | {
+  name: string;
+  url?: string;
+};
+
+const {
+  authors = [],
+  prefix = "with "
+}: {
+  authors: Author[];
+  prefix?: string;
+} = Astro.props;
+
+const normalizedAuthors = authors.map((author) =>
+  typeof author === "string" ? { name: author } : author
+);
+---
+
+{
+  normalizedAuthors.length > 0 ? (
+    <p class="entry-authors">
+      {prefix}
+      {
+        normalizedAuthors.map((author, index) => (
+          <span>
+            {index > 0 ? ", " : ""}
+            {author.url ? (
+              <a href={author.url} rel="noreferrer" target="_blank">{author.name}</a>
+            ) : (
+              author.name
+            )}
+          </span>
+        ))
+      }
+    </p>
+  ) : null
+}

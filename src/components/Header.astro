@@ -1,0 +1,29 @@
+---
+import { navigation } from "../data/navigation";
+import { profile } from "../data/profile";
+
+const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
+
+const isCurrent = (href: string) => {
+  if (href.includes("#")) return false;
+  const normalizedHref = href.replace(/\/$/, "") || "/";
+  return normalizedHref === "/"
+    ? currentPath === "/"
+    : currentPath === normalizedHref;
+};
+---
+
+<header class="site-header">
+  <div class="container site-header__inner">
+    <a class="site-brand" href="/">{profile.name}</a>
+    <nav class="site-nav" aria-label="Primary navigation">
+      {
+        navigation.map((item) => (
+          <a href={item.href} aria-current={isCurrent(item.href) ? "page" : undefined}>
+            {item.label}
+          </a>
+        ))
+      }
+    </nav>
+  </div>
+</header>

@@ -1,0 +1,26 @@
+---
+type TextPart = {
+  text: string;
+  url?: string;
+};
+
+const {
+  parts,
+  class: className
+}: {
+  parts: TextPart[];
+  class?: string;
+} = Astro.props;
+---
+
+<p class={className}>
+  {
+    parts.map((part) =>
+      part.url ? (
+        <a href={part.url} rel="noreferrer" target="_blank">{part.text}</a>
+      ) : (
+        part.text
+      )
+    )
+  }
+</p>

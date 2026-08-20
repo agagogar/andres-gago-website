@@ -1,0 +1,45 @@
+---
+import { getCollection } from "astro:content";
+import AuthorLinks from "../components/AuthorLinks.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PageHeader from "../components/PageHeader.astro";
+
+const publications = (await getCollection("other-publications")).sort(
+  (a, b) => a.data.order - b.data.order
+);
+---
+
+<BaseLayout
+  title="Other"
+  description="Non-academic publications by Andrés Gago."
+>
+  <PageHeader title="Other" />
+
+  <section class="section">
+    <div class="container">
+      <ol class="entry-list">
+        {
+          publications.map((item) => (
+            <li class="entry">
+              <div class="entry-title-row">
+                <h3>{item.data.title}</h3>
+                <span class="entry-date">{item.data.dateLabel}</span>
+              </div>
+              <AuthorLinks authors={item.data.authors} />
+              <p class="entry-meta">{item.data.outlet}</p>
+              {item.data.links.length > 0 ? (
+                <ul class="inline-links">
+                  {item.data.links.map((link) => (
+                    <li>
+                      <a href={link.url} rel="noreferrer" target="_blank">{link.label}</a>
+                    </li>
+                  ))}
+                </ul>
+              ) : null}
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+</BaseLayout>

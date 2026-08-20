@@ -1,0 +1,33 @@
+---
+import { profile } from "../data/profile";
+
+const socialLinks = profile.socials.filter((item) => item.url);
+---
+
+<footer class="site-footer" id="contact">
+  <div class="container site-footer__grid">
+    <div>
+      <h2>Contact</h2>
+      <ul class="contact-list">
+        <li><a href={`mailto:${profile.email}`}>{profile.email}</a></li>
+        <li>{profile.office}</li>
+        <li>{profile.city}</li>
+      </ul>
+    </div>
+    <div>
+      <p class="section-kicker">{profile.name}</p>
+      <p>
+        {profile.title}, <a href={profile.affiliationUrl}>{profile.affiliation}</a>
+      </p>
+      <ul class="social-list" aria-label="Social links">
+        {
+          socialLinks.map((item) => (
+            <li>
+              <a href={item.url} rel="noreferrer" target="_blank">{item.label}</a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </div>
+</footer>

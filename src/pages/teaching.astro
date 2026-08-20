@@ -1,0 +1,37 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PageHeader from "../components/PageHeader.astro";
+
+const teaching = (await getCollection("teaching")).sort(
+  (a, b) => a.data.order - b.data.order
+);
+---
+
+<BaseLayout
+  title="Teaching"
+  description="Teaching and supervising experience of Andrés Gago."
+>
+  <PageHeader title="Teaching" />
+
+  <section class="section">
+    <div class="container">
+      <ol class="entry-list">
+        {
+          teaching.map((item) => (
+            <li class="entry">
+              <div class="entry-title-row">
+                <h3>{item.data.course}</h3>
+                <span class="entry-date">{item.data.period}</span>
+              </div>
+              <p class="entry-meta">{item.data.institution}</p>
+              {item.data.program ? <p>{item.data.program}</p> : null}
+              {item.data.role ? <p>{item.data.role}</p> : null}
+              {item.data.notes ? <p>{item.data.notes}</p> : null}
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+</BaseLayout>

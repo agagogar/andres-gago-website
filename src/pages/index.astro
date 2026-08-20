@@ -1,0 +1,78 @@
+---
+import { getCollection } from "astro:content";
+import AuthorLinks from "../components/AuthorLinks.astro";
+import LinkedText from "../components/LinkedText.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { profile } from "../data/profile";
+
+const research = await getCollection("research");
+const publications = research
+  .filter((item) => item.data.category === "publications")
+  .sort((a, b) => a.data.order - b.data.order)
+  .slice(0, 3);
+---
+
+<BaseLayout
+  title="Andrés Gago"
+  description="Academic website of Andrés Gago, Assistant Professor at Universidad Torcuato Di Tella Business School."
+>
+  <section class="home-intro">
+    <div class="container home-intro__grid">
+      <div class="home-intro__copy">
+        <h1>{profile.name}</h1>
+        <p class="eyebrow">{profile.title} · {profile.affiliation}</p>
+        {
+          profile.bioParagraphs.map((paragraph, index) => (
+            <LinkedText parts={paragraph} class={index === 0 ? "lead" : undefined} />
+          ))
+        }
+        <ul class="tag-list" aria-label="Research interests">
+          {profile.researchInterests.map((interest) => <li>{interest}</li>)}
+        </ul>
+        <ul class="home-links" aria-label="Profile links">
+          <li><a href="/research/">Research</a></li>
+          <li><a href={profile.cvPath} download>Download CV</a></li>
+          <li><a href={`mailto:${profile.email}`}>Email</a></li>
+          {
+            profile.socials.map((item) => (
+              <li>
+                <a href={item.url} rel="noreferrer" target="_blank">{item.label}</a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+      <figure class="home-intro__portrait">
+        <img
+          src={profile.images.portrait.src}
+          alt={profile.images.portrait.alt}
+          width={profile.images.portrait.width}
+          height={profile.images.portrait.height}
+        />
+      </figure>
+    </div>
+  </section>
+
+  <section class="section home-publications">
+    <div class="container">
+      <div class="section-header">
+        <h2>Selected Publications</h2>
+        <a href="/research/">All research</a>
+      </div>
+      <ol class="entry-list">
+        {
+          publications.map((item) => (
+            <li class="entry">
+              <div class="entry-title-row">
+                <h3>{item.data.title}</h3>
+                {item.data.dateLabel ? <span class="entry-date">{item.data.dateLabel}</span> : null}
+              </div>
+              <AuthorLinks authors={item.data.authors} />
+              {item.data.venue ? <p class="entry-meta">{item.data.venue}</p> : null}
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+</BaseLayout>

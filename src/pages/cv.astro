@@ -1,0 +1,25 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PageHeader from "../components/PageHeader.astro";
+import { profile } from "../data/profile";
+---
+
+<BaseLayout
+  title="CV"
+  description="Download the CV of Andrés Gago."
+>
+  <PageHeader
+    title="CV"
+    text="Download the current curriculum vitae in PDF format."
+  />
+
+  <section class="section">
+    <div class="container">
+      <p>The current CV is available as a PDF.</p>
+      <div class="button-row">
+        <a class="button" href={profile.cvPath} download>Download CV</a>
+        <a class="button button--secondary" href={profile.cvPath}>Open PDF</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
