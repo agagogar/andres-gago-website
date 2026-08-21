@@ -10,8 +10,5 @@
   },
   "dependencies": {
     "astro": "^7.2.4"
-  },
-  "optionalDependencies": {
-    "@bruits/satteri-darwin-arm64": "^0.10.5"
   }
 }
