@@ -56,7 +56,7 @@ const publications = research
   <section class="section home-publications">
     <div class="container">
       <div class="section-header">
-        <h2>Selected Publications</h2>
+        <h2>Recent Publications</h2>
         <a href="/research/">All research</a>
       </div>
       <ol class="entry-list">
@@ -69,6 +69,7 @@ const publications = research
               </div>
               <AuthorLinks authors={item.data.authors} />
               {item.data.venue ? <p class="entry-meta">{item.data.venue}</p> : null}
+              {item.data.status ? <p class="entry-status">{item.data.status}</p> : null}
             </li>
           ))
         }

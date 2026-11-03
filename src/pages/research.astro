@@ -18,21 +18,21 @@ const research = (await getCollection("research")).sort(
 
 <BaseLayout
   title="Research"
-  description="Research by Andrés Gago, organized by publications, working papers, work in progress, and other research work."
+  description="Research by Andrés Gago, organized by publications, work in progress, and other research work."
 >
   <PageHeader title="Research" />
 
   {
     categories.map((category) => {
       const items = research.filter((item) => item.data.category === category.slug);
+      if (items.length === 0) return null;
       const showDateWithVenue =
         category.slug === "publications" || category.slug === "other-research-work";
       return (
         <section class="section">
           <div class="container">
             <h2>{category.label}</h2>
-            {items.length > 0 ? (
-              <ol class="entry-list">
+            <ol class="entry-list">
                 {items.map((item) => (
                   <li class="entry">
                     <div class="entry-title-row">
@@ -52,7 +52,7 @@ const research = (await getCollection("research")).sort(
                       category.slug === "work-in-progress" ? (
                         <p class="entry-status"><span>Status:</span> {item.data.status}</p>
                       ) : (
-                        <p>{item.data.status}</p>
+                        <p class="entry-status">{item.data.status}</p>
                       )
                     ) : null}
                     {item.data.links.length > 0 ? (
@@ -66,10 +66,7 @@ const research = (await getCollection("research")).sort(
                     ) : null}
                   </li>
                 ))}
-              </ol>
-            ) : (
-              <p class="empty-note">No entries yet.</p>
-            )}
+            </ol>
           </div>
         </section>
       );
